@@ -12,7 +12,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     try services.register(leafProvider)
     config.prefer(LeafRenderer.self, for: ViewRenderer.self)
 
-    try services.register(FluentMySQLProvider())  // changed
+    try services.register(FluentMySQLProvider())
 
     // Register routes to the router
 
