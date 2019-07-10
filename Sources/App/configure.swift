@@ -29,11 +29,11 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(SessionsMiddleware.self)
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
-    
+
     let mysqlConfig = MySQLDatabaseConfig(
         hostname: Environment.get("DB_HOSTNAME")!,
-        username: Environment.get("DB_USER")!,
         port: 3306,
+        username: Environment.get("DB_USER")!,
         password: Environment.get("DB_PASSWORD")!,
         database: Environment.get("DB_DATABASE")!
     )
