@@ -1,0 +1,38 @@
+#set("body") {
+  <ul>
+    #if(user.admin) {
+      <li>
+        <a href="/languages">
+          <div class="card">
+            <img src="images/language.png" alt="Language">
+            <div class="container">
+              <h4>Languages (#(languagesCount))</h4>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="/themes">
+          <div class="card">
+            <img src="images/theme.png" alt="Theme">
+            <div class="container">
+              <h4>Themes (#(themesCount))</h4>
+            </div>
+          </div>
+        </a>
+      </li>
+    }
+    <li>
+      <a href="/packages">
+        <div class="card">
+          <img src="images/package.png" alt="Package">
+          <div class="container">
+            <h4>Packages (#(packagesCount))</h4>
+          </div>
+        </div>
+      </a>
+    </li>
+  </ul>
+}
+
+#embed("nav_layout")

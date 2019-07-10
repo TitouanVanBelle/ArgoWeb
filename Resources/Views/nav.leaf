@@ -1,0 +1,11 @@
+<nav>
+  <ul>
+    <li class="section-title">Menu</li>
+    #navItem("Home", "/", currentPath)
+    #if(user.admin) {
+      #navItem("Languages", "/languages", currentPath)
+      #navItem("Themes", "/themes", currentPath)
+    }
+    #navItem("Packages", "/packages", currentPath)
+  </ul>
+</nav>

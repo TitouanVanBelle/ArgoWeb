@@ -1,0 +1,19 @@
+#set("body") {
+  <div id="register-form">
+    <form action="/register" method="POST">
+      <input type="email" placeholder="E-Mail" name="email" id="email" /><br>
+      #if(errorMessage) {
+        <div class="message error">#(errorMessage)</div>
+      }
+      <input type="password" placeholder="Password" name="password" id="password" /><br>
+      <select name="languageId">
+        #for(language in languages) {
+          <option value="#(language.id)">#(language.name)</option>
+        }
+      </select><br>
+      <input type="submit" class="btn btn-blue" value="Register" />
+    </form>
+  </div>
+}
+
+#embed("layout")

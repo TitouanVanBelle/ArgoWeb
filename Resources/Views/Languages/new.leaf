@@ -1,0 +1,8 @@
+#set("body") {
+  <form method="POST" action="/languages">
+  <input type="text" placeholder="Name" name="name" class="form-control">
+  <input class="btn btn-success" type="submit" value="Create">
+</form>
+}
+
+#embed("nav_layout")

@@ -1,0 +1,22 @@
+#set("body") {
+  <ul>
+  #for(theme in themes) {
+    <li>
+      <a href="/themes/#(theme.id)">
+        <div class="card">
+          <div class="container">
+            <h4>#(theme.name)</h4>
+          </div>
+        </div>
+      </a>
+    </li>
+  }
+  </ul>
+  #if(user.admin) {
+    <a href="themes/new">
+      <button class="btn btn-blue" type="button">New</button>
+    </a>
+  }
+}
+
+#embed("nav_layout")
