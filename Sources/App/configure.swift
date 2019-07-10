@@ -31,11 +31,11 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     services.register(middlewares)
 
     let mysqlConfig = MySQLDatabaseConfig(
-        hostname: Environment.get("DB_HOSTNAME")!,
+        hostname: "127.0.0.1",
         port: 3306,
-        username: Environment.get("DB_USER")!,
-        password: Environment.get("DB_PASSWORD")!,
-        database: Environment.get("DB_DATABASE")!
+        username: "root",
+        password: "92ppbhp.",
+        database: "argo"
     )
     
     services.register(mysqlConfig)
