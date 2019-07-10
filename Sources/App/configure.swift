@@ -7,7 +7,7 @@ import Authentication
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws
 {
     // Register providers first
-    
+
     let leafProvider = LeafProvider()
     try services.register(leafProvider)
     config.prefer(LeafRenderer.self, for: ViewRenderer.self)
@@ -29,14 +29,15 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(SessionsMiddleware.self)
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
-
+    
     let mysqlConfig = MySQLDatabaseConfig(
-        hostname: "127.0.0.1",
+        hostname: Environment.get("DB_HOSTNAME")!,
+        username: Environment.get("DB_USER")!,
         port: 3306,
-        username: "root",
-        password: "92ppbhp.",
-        database: "argo"
+        password: Environment.get("DB_PASSWORD")!,
+        database: Environment.get("DB_DATABASE")!
     )
+    
     services.register(mysqlConfig)
 
     // Configure Custom Tags
