@@ -30,13 +30,18 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
 
-    let mysqlConfig = MySQLDatabaseConfig(
-        hostname: "127.0.0.1",
-        port: 3306,
-        username: "root",
-        password: "92ppbhp.",
-        database: "argo"
-    )
+    var mysqlConfig: MySQLDatabaseConfig!
+    if env.isRelease {
+        mysqlConfig = MySQLDatabaseConfig.root(database: "argo")
+    } else {
+        mysqlConfig = MySQLDatabaseConfig(
+            hostname: "127.0.0.1",
+            port: 3306,
+            username: "root",
+            password: "92ppbhp.",
+            database: "argo"
+        )
+    }
     
     services.register(mysqlConfig)
 
