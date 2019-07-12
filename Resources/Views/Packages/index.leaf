@@ -1,0 +1,37 @@
+#set("body") {
+  <ul>
+    #for(package in packages) {
+      <li>
+        <a href="/packages/#(package.id)">
+          <div class="card">
+            <div class="container">
+              <h4>#(package.theme)</h4>
+              <h5>#(package.language)</h5>
+            </div>
+          </div>
+        </a>
+      </li>
+    }
+  </ul>
+  #if(user.admin) {
+    <div id="toolbar">
+    <select id="language_filter" name="language_filter" onchange="filterPackages()">
+      <option name="language" value="0">-</option>
+      #for(language in languages) {
+        <option name="language" #if(language.id == selectedLanguage) { selected="selected" } value="#(language.id)">#(language.name)</option>
+      }
+    </select>
+    <select id="theme_filter" name="theme_filter" onchange="filterPackages()">
+      <option name="theme" value="0">-</option>
+      #for(theme in themes) {
+        <option name="theme" #if(theme.id == selectedTheme) { selected="selected" } value="#(theme.id)">#(theme.name)</option>
+      }
+    </select>
+    <form method="POST" action="/packages/create_missing_packages">
+      <input class="btn btn-blue" type="submit" value="Create Missing Packages">
+    </form>
+  </div>
+}
+}
+
+#embed("nav_layout")

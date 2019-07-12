@@ -1,0 +1,29 @@
+#set("body") {
+  <form method="POST" action="/packages/#(id)/update">
+    <table>
+      <tr>
+        <th>Word</th>
+        <th>Translation</th>
+      </tr>
+      #for(translation in translations) {
+        <tr>
+          <td>#(translation.word)</td>
+          <td>
+            <input type="text" name="translations[]" class="form-control" value="#(translation.translation)" #if(readyForProcessing) { disabled }>
+          </td>
+        </tr>
+      }
+      #if(!readyForProcessing) {
+        <tr>
+          <td></td>
+          <td>
+            <input class="btn btn-blue" type="submit" name="save" value="Save">
+            <input class="btn btn-blue" type="submit" name="save_and_finish" value="Save & Finish">
+          </td>
+        </tr>
+      }
+    </table>
+  </form>
+}
+
+#embed("nav_layout")
