@@ -29,15 +29,15 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(SessionsMiddleware.self)
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
-//
-//    let databaseConfig = PostgreSQLDatabaseConfig(
-//        hostname: "localhost",
-//        port: 5432,
-//        username: "titouanvanbelle",
-//        database: "argo",
-//        password: nil,
-//        transport: .cleartext
-//    )
+
+    let databaseConfig = PostgreSQLDatabaseConfig(
+        hostname: "localhost",
+        port: 5432,
+        username: "titouanvanbelle",
+        database: "argo",
+        password: nil,
+        transport: .cleartext
+    )
     let postgres = PostgreSQLDatabase(config: databaseConfig)
 
     // Configure Custom Tags
