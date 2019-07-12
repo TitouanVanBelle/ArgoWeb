@@ -30,15 +30,21 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
 
-    let databaseConfig = PostgreSQLDatabaseConfig(
-        hostname: "localhost",
-        port: 5432,
-        username: "titouanvanbelle",
-        database: "argo",
-        password: nil,
-        transport: .cleartext
-    )
-    let postgres = PostgreSQLDatabase(config: databaseConfig)
+    // Configure a database
+    let dbConfig: PostgreSQLDatabaseConfig
+    if let url = Environment.get("DATABASE_URL"), let psqlConfig = PostgreSQLDatabaseConfig(url: url) {
+        dbConfig = psqlConfig
+    } else {
+        dbConfig = PostgreSQLDatabaseConfig(
+            hostname: "localhost",
+            port: 5432,
+            username: "titouanvanbelle",
+            database: "argo",
+            password: nil,
+            transport: .cleartext
+        )
+    }
+    let postgresql = PostgreSQLDatabase(config: dbConfig)
 
     // Configure Custom Tags
 
@@ -49,7 +55,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     }
 
     var databases = DatabasesConfig()
-    databases.add(database: postgres, as: .psql)
+    databases.add(database: postgresql, as: .psql)
     services.register(databases)
 
     config.prefer(MemoryKeyedCache.self, for: KeyedCache.self)
