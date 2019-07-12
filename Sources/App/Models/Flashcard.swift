@@ -1,8 +1,8 @@
-import FluentMySQL
+import FluentPostgreSQL
 import Vapor
 
 /// A single entry of a Flashcard list.
-final class Flashcard: MySQLModel
+final class Flashcard: PostgreSQLModel
 {
     var id: Int?
     var word: String

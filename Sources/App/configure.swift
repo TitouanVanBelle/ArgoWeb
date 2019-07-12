@@ -1,4 +1,4 @@
-import FluentMySQL
+import FluentPostgreSQL
 import Leaf
 import Vapor
 import Authentication
@@ -12,7 +12,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     try services.register(leafProvider)
     config.prefer(LeafRenderer.self, for: ViewRenderer.self)
 
-    try services.register(FluentMySQLProvider())
+    try services.register(FluentPostgreSQLProvider())
 
     // Register routes to the router
 
@@ -29,21 +29,16 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(SessionsMiddleware.self)
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
-
-    var mysqlConfig: MySQLDatabaseConfig!
-    if env.isRelease {
-        mysqlConfig = MySQLDatabaseConfig.root(database: "argo")
-    } else {
-        mysqlConfig = MySQLDatabaseConfig(
-            hostname: "127.0.0.1",
-            port: 3306,
-            username: "root",
-            password: "92ppbhp.",
-            database: "argo"
-        )
-    }
-    
-    services.register(mysqlConfig)
+//
+//    let databaseConfig = PostgreSQLDatabaseConfig(
+//        hostname: "localhost",
+//        port: 5432,
+//        username: "titouanvanbelle",
+//        database: "argo",
+//        password: nil,
+//        transport: .cleartext
+//    )
+    let postgres = PostgreSQLDatabase(config: databaseConfig)
 
     // Configure Custom Tags
 
@@ -53,15 +48,21 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
         return config
     }
 
+    var databases = DatabasesConfig()
+    databases.add(database: postgres, as: .psql)
+    services.register(databases)
+
     config.prefer(MemoryKeyedCache.self, for: KeyedCache.self)
 
     // Configure migrations
 
     var migrations = MigrationConfig()
-    migrations.add(model: Flashcard.self, database: .mysql)
-    migrations.add(model: Language.self, database: .mysql)
-    migrations.add(model: Package.self, database: .mysql)
-    migrations.add(model: Theme.self, database: .mysql)
-    migrations.add(model: User.self, database: .mysql)
+    migrations.add(model: Flashcard.self, database: .psql)
+    migrations.add(model: Language.self, database: .psql)
+    migrations.add(model: Package.self, database: .psql)
+    migrations.add(model: Theme.self, database: .psql)
+    migrations.add(model: User.self, database: .psql)
+
+    migrations.add(migration: CreateLanguages.self, database: .psql)
     services.register(migrations)
 }

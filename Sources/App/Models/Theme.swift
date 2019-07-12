@@ -1,8 +1,8 @@
-import FluentMySQL
+import FluentPostgreSQL
 import Vapor
 
 /// A single entry of a Theme list.
-final class Theme: MySQLModel
+final class Theme: PostgreSQLModel
 {
     var id: Int?
     var name: String

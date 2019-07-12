@@ -1,7 +1,7 @@
-import FluentMySQL
+import FluentPostgreSQL
 import Vapor
 
-final class Package: MySQLModel
+final class Package: PostgreSQLModel
 {
     var id: Int?
     var themeId: Int
@@ -20,7 +20,7 @@ final class Package: MySQLModel
         self.readyForProcessing = readyForProcessing
     }
 
-    func willCreate(on conn: MySQLConnection) throws -> Future<Package>
+    func willCreate(on conn: PostgreSQLConnection) throws -> Future<Package>
     {
         readyForProcessing = false
         processed = false
@@ -42,7 +42,7 @@ extension Package
 /// Allows `Package` to be used as a dynamic migration.
 extension Package: Migration
 {
-    static func prepare(on conn: MySQLConnection) -> Future<Void>
+    static func prepare(on conn: PostgreSQLConnection) -> Future<Void>
     {
         return Database.create(self, on: conn) { builder in
             try addProperties(to: builder)

@@ -1,10 +1,10 @@
 import Foundation
 import Vapor
 import Fluent
-import FluentMySQL
+import FluentPostgreSQL
 import Authentication
 
-final class User: MySQLModel
+final class User: PostgreSQLModel
 {
     struct UserLoginForm: Content {
         let email: String
@@ -26,7 +26,7 @@ final class User: MySQLModel
         self.languageId = languageId
     }
 
-    func willCreate(on conn: MySQLConnection) throws -> EventLoopFuture<User>
+    func willCreate(on conn: PostgreSQLConnection) throws -> EventLoopFuture<User>
     {
         if email == "titouan.vanbelle@gmail.com" {
             admin = true
