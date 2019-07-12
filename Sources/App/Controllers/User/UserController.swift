@@ -14,12 +14,6 @@ enum RegisterError: Int, Encodable {
     }
 }
 
-struct UserRegisterContext: Encodable
-{
-    let errorMessage: String?
-    let languages: [Language]
-}
-
 class UserController
 {
     func renderRegister(_ req: Request) throws -> Future<View>

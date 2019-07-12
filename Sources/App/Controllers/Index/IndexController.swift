@@ -1,15 +1,6 @@
 import Vapor
 import FluentPostgreSQL
 
-struct IndexContext: Encodable
-{
-    let currentPath: String
-    let languagesCount: Future<Int>
-    let packagesCount: Future<Int>
-    let themesCount: Future<Int>
-    let user: User
-}
-
 final class IndexController
 {
     func index(_ req: Request) throws -> Future<View>
