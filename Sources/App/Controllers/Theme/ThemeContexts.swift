@@ -2,7 +2,7 @@ import Vapor
 
 struct ThemeIndexContext: Encodable
 {
-    let themes: [Theme]
+    let themes: [ThemeView]
     let currentPath: String
     let user: User
 }
@@ -26,4 +26,9 @@ struct ThemeUpdateForm: Content
     let words: [String]
 }
 
-
+struct ThemeView: Encodable
+{
+    let id: Int
+    let name: String
+    let numberOfCards: Int
+}

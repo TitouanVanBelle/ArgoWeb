@@ -31,6 +31,12 @@ $(document).ready(function() {
   });
 
   $("table").on('keydown', 'input[type=text]', function(e) {
+    var keyCode = e.keyCode || e.which;
+
+    if (keyCode != 9) {
+      return;
+    }
+    
     var trs = $('table tr');
     var lastTr = trs[trs.length - 2];
     var tr = $(this).parents('tr')[0];

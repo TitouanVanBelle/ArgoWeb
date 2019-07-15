@@ -8,8 +8,16 @@ final class ThemeController
         let user = try req.requireAuthenticated(User.self)
 
         return themes.flatMap { themes in
+            let themesList = themes.compactMap { theme in
+                return ThemeView(
+                    id: theme.id!,
+                    name: theme.name,
+                    numberOfCards: theme.numberOfCards
+                )
+            }
+
             let context = ThemeIndexContext(
-                themes: themes,
+                themes: themesList,
                 currentPath: req.http.url.path,
                 user: user
             )
