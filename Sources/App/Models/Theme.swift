@@ -49,19 +49,3 @@ extension Theme: Content { }
 
 /// Allows `Theme` to be used as a dynamic parameter in route definitions.
 extension Theme: Parameter { }
-
-struct ThemeRemoveNumberOfCardsMigration: PostgreSQLMigration
-{
-    static func prepare(on conn: PostgreSQLConnection) -> EventLoopFuture<Void>
-    {
-        return PostgreSQLDatabase.update(Theme.self, on: conn) { builder in
-            builder.deleteField(for: \.numberOfCards)
-        }
-    }
-
-    static func revert(on conn: PostgreSQLConnection) -> Future<Void> {
-        return PostgreSQLDatabase.update(Theme.self, on: conn) { builder in
-            builder.field(for: \.numberOfCards)
-        }
-    }
-}
