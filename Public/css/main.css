@@ -150,6 +150,12 @@ nav ul li.selected a {
   cursor: pointer;
 }
 
+.btn.btn-red {
+  border-color: #BA0B15;
+  background-color: #E73C1E;
+  color: #FFFFFF;
+}
+
 .btn.btn-blue {
   border-color: #1461D2;
   background-color: #1665D8;
@@ -160,13 +166,22 @@ nav ul li.selected a {
   background-color: #F6F7F9;
 }
 
+td button {
+  float: right;
+  margin-left: 10px;
+}
+
+td input {
+  float: left;
+}
+
 form > input {
   margin-right: 10px;
 }
-
+/*
 td > input[type="text"] {
   width: 100%;
-}
+} */
 
 input[type="text"],
 input[type="email"],

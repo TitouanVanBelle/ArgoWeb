@@ -1,15 +1,26 @@
 #set("body") {
   <form method="POST" action="/themes/#(id)/update">
     <table>
-      #for(word in words) {
+      #if(count(words) > 0) {
+        #for(word in words) {
+          <tr>
+            <td>
+              <input type="text" value="#(word)" name="words[]" class="form-control">
+              <button class="btn btn-red delete-row" type="button" tabindex="-1">Remove</button>
+            </td>
+          </tr>
+        }
+      } else {
         <tr>
           <td>
-            <input type="text" value="#(word)" name="words[]" class="form-control">
+            <input type="text" name="words[]" class="form-control">
+            <button class="btn btn-red delete-row" type="button" tabindex="-1">Remove</button>
           </td>
         </tr>
       }
       <tr>
         <td>
+          <button class="btn btn-blue add-row" type="button">Add Word</button>
           <input class="btn btn-blue" type="submit" value="Save">
         </td>
       </tr>

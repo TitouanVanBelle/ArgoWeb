@@ -10,7 +10,6 @@ struct ThemeIndexContext: Encodable
 struct ThemeNewContext: Encodable
 {
     let currentPath: String
-    let availableNumberOfCards: [Int]
     let user: User
 }
 

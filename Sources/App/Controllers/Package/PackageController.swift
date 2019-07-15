@@ -22,7 +22,10 @@ final class PackageController
             }
 
         } else {
-            query = Package.query(on: req).filter(\.languageId == user.languageId)
+            query = Package.query(on: req)
+                .filter(\.languageId == user.languageId)
+                .filter(\.processed == false)
+                .filter(\.readyForProcessing == false)
         }
 
         let packages = query.all()
@@ -34,7 +37,9 @@ final class PackageController
                         return PackageView(
                             id: package.id,
                             theme: theme.name,
-                            language: language.name
+                            language: language.name,
+                            processed: package.processed,
+                            readyForProcessing: package.readyForProcessing
                         )
                     }
                 }

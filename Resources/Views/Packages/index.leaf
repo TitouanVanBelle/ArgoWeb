@@ -7,6 +7,15 @@
             <div class="container">
               <h4>#(package.theme)</h4>
               <h5>#(package.language)</h5>
+              #if(user.admin) {
+                #if(package.processed) {
+                  <h5>Processed</h5>
+                } else if(package.readyForProcessing) {
+                  <h5>Ready for processing</h5>
+                } else {
+                  <h5>-</h5>
+                }
+              }
             </div>
           </div>
         </a>

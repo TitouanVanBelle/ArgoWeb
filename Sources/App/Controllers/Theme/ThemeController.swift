@@ -21,11 +21,9 @@ final class ThemeController
     func new(_ req: Request) throws -> Future<View>
     {
         let user = try req.requireAuthenticated(User.self)
-        let availableNumberOfCards = Array(5...50)
 
         let context = ThemeNewContext(
             currentPath: req.http.url.path,
-            availableNumberOfCards: availableNumberOfCards,
             user: user
         )
         return try req.view().render("Themes/new", context)

@@ -1,11 +1,6 @@
 #set("body") {
     <form method="POST" action="/themes">
     <input type="text" placeholder="Name" name="name" class="form-control">
-    <select name="numberOfCards">
-      #for(availableNumberOfCard in availableNumberOfCards) {
-        <option value="#(availableNumberOfCard)">#(availableNumberOfCard)</options>
-      }
-    </select>
     <input class="btn btn-blue" type="submit" value="Create">
   </form>
 }

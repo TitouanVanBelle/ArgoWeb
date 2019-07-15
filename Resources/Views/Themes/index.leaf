@@ -5,7 +5,7 @@
       <a href="/themes/#(theme.id)">
         <div class="card">
           <div class="container">
-            <h4>#(theme.name)</h4>
+            <h4>#(theme.name) (#(theme.numberOfCards))</h4>
           </div>
         </div>
       </a>

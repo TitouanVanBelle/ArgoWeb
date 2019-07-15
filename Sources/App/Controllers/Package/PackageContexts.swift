@@ -40,6 +40,8 @@ struct PackageView: Encodable
     let id: Int?
     let theme: String
     let language: String
+    let processed: Bool
+    let readyForProcessing: Bool
 }
 
 struct Translation: Encodable
