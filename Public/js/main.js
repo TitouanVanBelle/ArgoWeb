@@ -30,13 +30,27 @@ $(document).ready(function() {
     $(this).parents("tr").remove();
   });
 
+  var shiftPressed = false;
+
+  $("table").on('keyup', 'input[type=text]', function(e) {
+    var keyCode = e.keyCode || e.which;
+
+    if (keyCode == 16) {
+      shiftPressed = false;
+    }
+  });
+
   $("table").on('keydown', 'input[type=text]', function(e) {
     var keyCode = e.keyCode || e.which;
 
-    if (keyCode != 9) {
+    if (keyCode == 16) {
+      shiftPressed = true;
+    }
+
+    if (keyCode != 9 || shiftPressed) {
       return;
     }
-    
+
     var trs = $('table tr');
     var lastTr = trs[trs.length - 2];
     var tr = $(this).parents('tr')[0];
