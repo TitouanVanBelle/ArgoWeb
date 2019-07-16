@@ -113,7 +113,7 @@ final class PackageController
 
     func createMissingPackages(_ req: Request) throws -> Future<Response>
     {
-        return Theme.query(on: req).all().flatMap { existingThemes in
+        return Theme.query(on: req).filter(\.readyForPackaging == true).all().flatMap { existingThemes in
             guard existingThemes.count > 0 else {
                 return Future.map(on: req) {
                     return req.redirect(to: "/packages")

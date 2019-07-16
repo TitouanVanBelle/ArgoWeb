@@ -18,6 +18,7 @@ struct ThemeShowContext: Encodable
     let id: Int
     let name: String
     let currentPath: String
+    let readyForPackaging: Bool
     let words: [String]
     let user: User
 }
@@ -25,6 +26,8 @@ struct ThemeShowContext: Encodable
 struct ThemeUpdateForm: Content
 {
     let words: [String]
+    let save_and_finish: String?
+    let save: String?
 }
 
 struct ThemeView: Encodable

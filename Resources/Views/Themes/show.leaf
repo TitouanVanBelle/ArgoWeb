@@ -6,8 +6,10 @@
         #for(word in words) {
           <tr>
             <td>
-              <input type="text" value="#(word)" name="words[]" class="form-control">
-              <button class="btn btn-red delete-row" type="button" tabindex="-1">Remove</button>
+              <input type="text" value="#(word)" name="words[]" class="form-control" #if(readyForPackaging) { disabled }>
+              #if(!readyForPackaging) {
+                <button class="btn btn-red delete-row" type="button" tabindex="-1">Remove</button>
+              }
             </td>
           </tr>
         }
@@ -19,12 +21,15 @@
           </td>
         </tr>
       }
-      <tr>
-        <td>
-          <button class="btn btn-blue add-row" type="button">Add Word</button>
-          <input class="btn btn-blue" type="submit" value="Save">
-        </td>
-      </tr>
+      #if(!readyForPackaging) {
+        <tr>
+          <td>
+            <button class="btn btn-blue add-row" type="button">Add Word</button>
+            <input class="btn btn-blue" type="submit" name="save" value="Save">
+            <input class="btn btn-blue" type="submit" name="save_and_finish" value="Save & Finish">
+          </td>
+        </tr>
+      }
     </table>
   </form>
 }

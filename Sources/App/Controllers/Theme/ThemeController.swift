@@ -55,6 +55,7 @@ final class ThemeController
                 id: theme.id!,
                 name: theme.name,
                 currentPath: req.http.url.path,
+                readyForPackaging: theme.readyForPackaging ?? false,
                 words: words,
                 user: user
             )
@@ -66,6 +67,12 @@ final class ThemeController
     {
         return try req.parameters.next(Theme.self).flatMap { theme in
             return try req.content.decode(ThemeUpdateForm.self).flatMap { themeUpdateForm in
+                if let _ = themeUpdateForm.save_and_finish {
+                    let hasEmptyWords = themeUpdateForm.words.reduce(false) { $0 || $1.isEmpty }
+                    if !hasEmptyWords {
+                        theme.readyForPackaging = true
+                    }
+                }
                 theme.words = themeUpdateForm.words
                 return theme.save(on: req).map { _ in
                     return req.redirect(to: "/themes")
