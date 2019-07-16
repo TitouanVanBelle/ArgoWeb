@@ -53,6 +53,7 @@ final class ThemeController
             let words = theme.words ?? Array(repeating: "", count: theme.numberOfCards)
             let context = ThemeShowContext(
                 id: theme.id!,
+                name: theme.name,
                 currentPath: req.http.url.path,
                 words: words,
                 user: user

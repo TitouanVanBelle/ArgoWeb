@@ -1,4 +1,5 @@
 #set("body") {
+  <h2>#(name)</h2>
   <form method="POST" action="/themes/#(id)/update">
     <table>
       #if(count(words) > 0) {

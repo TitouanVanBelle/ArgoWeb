@@ -16,6 +16,7 @@ struct ThemeNewContext: Encodable
 struct ThemeShowContext: Encodable
 {
     let id: Int
+    let name: String
     let currentPath: String
     let words: [String]
     let user: User
