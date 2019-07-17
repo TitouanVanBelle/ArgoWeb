@@ -166,12 +166,18 @@ nav ul li.selected a {
   background-color: #F6F7F9;
 }
 
-td button {
+td button,
+td input[type=submit] {
   float: right;
   margin-left: 10px;
 }
 
-td input {
+td button:last-child,
+td input[type=submit]:last-child {
+  margin-left: 0;
+}
+
+td input[type=text] {
   float: left;
 }
 
