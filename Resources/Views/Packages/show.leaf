@@ -4,12 +4,16 @@
       <tr>
         <th>Word</th>
         <th>Translation</th>
+        <th></th>
       </tr>
       #for(translation in translations) {
         <tr>
           <td>#(translation.word)</td>
           <td>
             <input type="text" name="translations[]" class="form-control" value="#(translation.translation)" #if(readyForProcessing) { disabled }>
+          </td>
+          <td>
+            <button class="btn btn-blue btn-wordreference" data-link="#(translation.link)">Check on Wordreference</button>
           </td>
         </tr>
       }

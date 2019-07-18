@@ -26,6 +26,17 @@ $(document).ready(function() {
     tr.before(row);
   };
 
+  $('table').on('click', '.btn-wordreference', function(e) {
+    var link = $(this).attr('data-link');
+    var win = window.open(link, '_blank');
+    if (win) {
+        win.focus();
+    } else {
+        alert('Please allow popups for this website');
+    }
+    e.preventDefault();
+  });
+
   $('table').on('click', '.delete-row', function() {
     $(this).parents("tr").remove();
   });

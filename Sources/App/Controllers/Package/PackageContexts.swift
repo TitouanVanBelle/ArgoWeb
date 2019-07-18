@@ -48,4 +48,5 @@ struct Translation: Encodable
 {
     let word: String
     let translation: String
+    let link: String
 }

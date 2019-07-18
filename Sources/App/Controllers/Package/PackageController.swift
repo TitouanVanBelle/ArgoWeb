@@ -72,17 +72,25 @@ final class PackageController
         let user = try req.requireAuthenticated(User.self)
         return try req.parameters.next(Package.self).flatMap { package in
             return package.theme.get(on: req).flatMap { theme in
-                let translations = package.translations ?? Array(repeating: "", count: theme.numberOfCards)
-                let readyForProcessing = package.readyForProcessing
-                let fullTranslations = theme.words!.enumerated().map { Translation(word: $1, translation: translations[$0]) }
-                let context = PackageShowContext(
-                    id: package.id!,
-                    currentPath: req.http.url.path,
-                    translations: fullTranslations,
-                    readyForProcessing: readyForProcessing,
-                    user: user
-                )
-                return try req.view().render("Packages/show", context)
+                return package.language.get(on: req).flatMap { language in
+                    let translations = package.translations ?? Array(repeating: "", count: theme.numberOfCards)
+                    let readyForProcessing = package.readyForProcessing
+                    let fullTranslations = theme.words!.enumerated().map {
+                        Translation(word: $1,
+                                    translation:translations[$0],
+                                    link: "https://www.wordreference.com/en\(language.code)/\($1)"
+                        )
+                    }
+                    let context = PackageShowContext(
+                        id: package.id!,
+                        currentPath: req.http.url.path,
+                        translations: fullTranslations,
+                        readyForProcessing: readyForProcessing,
+                        user: user
+                    )
+
+                    return try req.view().render("Packages/show", context)
+                }
             }
         }
     }

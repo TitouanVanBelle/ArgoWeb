@@ -6,11 +6,13 @@ final class Language: PostgreSQLModel
 {
     var id: Int?
     var name: String
+    var code: String
 
-    init(id: Int? = nil, name: String)
+    init(id: Int? = nil, name: String, code: String)
     {
         self.id = id
         self.name = name
+        self.code = code
     }
 }
 
@@ -33,18 +35,18 @@ extension Language: Parameter { }
 struct CreateLanguages: PostgreSQLMigration
 {
     static let languages = [
-        "English",
-        "German",
-        "French",
-        "Spanish",
-        "Italian"
+        "English": "en",
+        "German": "de",
+        "French": "fr",
+        "Spanish": "es",
+        "Italian": "it"
     ]
 
     static func prepare(on connection: PostgreSQLConnection) -> Future<Void>
     {
         // Insert all forms from formNames
-        let futures = languages.map { name in
-            return Language(name: name).create(on: connection).map(to: Void.self) { _ in
+        let futures = languages.map { (name, code) in
+            return Language(name: name, code: code).create(on: connection).map(to: Void.self) { _ in
                 return
             }
         }
@@ -54,10 +56,27 @@ struct CreateLanguages: PostgreSQLMigration
 
     static func revert(on connection: PostgreSQLConnection) -> Future<Void>
     {
-        let futures = languages.map { name in
+        let futures = languages.map { (name, code) in
             return Language.query(on: connection).filter(\.name == name).delete()
         }
 
         return Future<Void>.andAll(futures, eventLoop: connection.eventLoop)
+    }
+}
+
+struct LanguageAddCodeMigration: PostgreSQLMigration
+{
+    static func prepare(on conn: PostgreSQLConnection) -> Future<Void>
+    {
+        return PostgreSQLDatabase.update(Language.self, on: conn) { builder in
+            builder.field(for: \.code, type: .text, .default(.literal("")))
+        }
+    }
+
+    static func revert(on conn: PostgreSQLConnection) -> Future<Void>
+    {
+        return PostgreSQLDatabase.update(Language.self, on: conn) { builder in
+            builder.deleteField(for: \.code)
+        }
     }
 }

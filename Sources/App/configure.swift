@@ -70,5 +70,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
 
     migrations.add(migration: CreateLanguages.self, database: .psql)
     migrations.add(migration: ThemeReadyForPackagingMigration.self, database: .psql)
+    migrations.add(migration: LanguageAddCodeMigration.self, database:.psql)
     services.register(migrations)
 }
+
