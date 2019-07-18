@@ -1,4 +1,5 @@
 #set("body") {
+  <h3>#(theme) (#(numberOfCards))</h3>
   <form method="POST" action="/packages/#(id)/update">
     <table>
       <tr>

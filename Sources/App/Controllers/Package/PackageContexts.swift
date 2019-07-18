@@ -23,6 +23,8 @@ struct PackageShowContext: Encodable
 {
     let id: Int
     let currentPath: String
+    let theme: String
+    let numberOfCards: Int
     let translations: [Translation]
     let readyForProcessing: Bool
     let user: User

@@ -84,6 +84,8 @@ final class PackageController
                     let context = PackageShowContext(
                         id: package.id!,
                         currentPath: req.http.url.path,
+                        theme: theme.name,
+                        numberOfCards: theme.numberOfCards,
                         translations: fullTranslations,
                         readyForProcessing: readyForProcessing,
                         user: user
