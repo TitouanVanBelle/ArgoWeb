@@ -29,6 +29,12 @@
             <input class="btn btn-blue" type="submit" name="save_and_finish" value="Save & Finish">
           </td>
         </tr>
+      } else {
+        <tr>
+          <td>
+            <input class="btn btn-blue" type="submit" name="unlock" value="Unlock">
+          </td>
+        </tr>
       }
     </table>
   </form>

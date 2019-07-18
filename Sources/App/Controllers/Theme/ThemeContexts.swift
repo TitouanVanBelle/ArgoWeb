@@ -28,6 +28,7 @@ struct ThemeUpdateForm: Content
     let words: [String]
     let save_and_finish: String?
     let save: String?
+    let unlock: String?
 }
 
 struct ThemeView: Encodable
