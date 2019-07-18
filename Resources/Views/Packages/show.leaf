@@ -13,7 +13,7 @@
             <input type="text" name="translations[]" class="form-control" value="#(translation.translation)" #if(readyForProcessing) { disabled }>
           </td>
           <td>
-            <button class="btn btn-blue btn-wordreference" data-link="#(translation.link)">Check on Wordreference</button>
+            <button class="btn btn-blue btn-wordreference" data-link="#(translation.link)" tabindex="-1">Check on Wordreference</button>
           </td>
         </tr>
       }
