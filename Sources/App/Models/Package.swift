@@ -6,28 +6,12 @@ final class Package: PostgreSQLModel
 {
     var id: Int?
     var name: String
-    var words: [String]?
     var readyForProcessing: Bool?
 
-    var isValid: Bool {
-        guard let words = words else {
-            return false
-        }
-
-        for word in words {
-            if word.isEmpty {
-                return false
-            }
-        }
-
-        return true
-    }
-
-    init(id: Int? = nil, name: String, words: [String]? = nil, readyForProcessing: Bool = false)
+    init(id: Int? = nil, name: String, readyForProcessing: Bool = false)
     {
         self.id = id
         self.name = name
-        self.words = words
         self.readyForProcessing = readyForProcessing
     }
 }
