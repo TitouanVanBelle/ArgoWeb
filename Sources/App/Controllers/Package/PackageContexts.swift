@@ -13,10 +13,10 @@ struct PackageNewContext: Encodable
     let user: User
 }
 
-struct Word: Encodable
+struct LanguageWithTranslations: Encodable
 {
-    let value: String
-    let languageId: Int
+    let language: Language
+    let translations: [String]
 }
 
 struct PackageShowContext: Encodable
@@ -26,13 +26,12 @@ struct PackageShowContext: Encodable
     let packageId: Int
     let packageName: String
     let readyForProcessing: Bool
-    let wordLists: [[Word]]
-    let languages: [Language]
+    let languagesAndTranslations: [LanguageWithTranslations]
 }
 
 struct PackageUpdateForm: Content
 {
-    let words: [String]
+    let translations: [String:[String]]
     let save_and_finish: String?
     let save: String?
     let unlock: String?

@@ -1,4 +1,5 @@
 import Vapor
+import FluentPostgreSQL
 
 final class PackageController
 {
@@ -52,18 +53,18 @@ final class PackageController
         return try req.parameters.next(Package.self).flatMap { package in
             return Language.query(on: req).all().flatMap { languages in
                 return try package.translationsLists.query(on: req).all().flatMap { translationsLists in
-                    var wordLists = [[Word]]()
-                    
+
+                    var languagesAndTranslations = [LanguageWithTranslations]()
                     if translationsLists.isEmpty {
-                        wordLists = [languages.map { language in
-                            return Word(value: "", languageId: language.id!)
-                        }]
+                        languagesAndTranslations = languages.map { language in
+                            return LanguageWithTranslations(language: language, translations: [""])
+                        }
                     } else {
-                        for translationsList in translationsLists {
-                            for (index, translation) in translationsList.translations!.enumerated() {
-                                let word = Word(value: translation, languageId: translationsList.languageId)
-                                wordLists[index].append(word)
-                            }
+                        languagesAndTranslations = languages.map { language in
+                            return LanguageWithTranslations(
+                                language: language,
+                                translations:  translationsLists.filter({ $0.languageId == language.id }).first!.translations!
+                            )
                         }
                     }
                     
@@ -73,8 +74,7 @@ final class PackageController
                         packageId: package.id!,
                         packageName: package.name,
                         readyForProcessing: package.readyForProcessing ?? false,
-                        wordLists: wordLists,
-                        languages: languages
+                        languagesAndTranslations: languagesAndTranslations
                     )
                     
                     return try req.view().render("Packages/show", context)
@@ -87,22 +87,37 @@ final class PackageController
     {
         return try req.parameters.next(Package.self).flatMap { package in
             return try req.content.decode(PackageUpdateForm.self).flatMap { packageUpdateForm in
-                var redirect = "/packages"
-                if let _ =  packageUpdateForm.unlock {
+                let redirect = "/packages/\(package.id!)"
+                
+                if let _ = packageUpdateForm.save_and_finish {
+                    package.readyForProcessing = true
+                } else if let _ = packageUpdateForm.unlock {
                     package.readyForProcessing = false
-                    redirect = "/packages/\(package.id!)"
-                } else {
-                    if let _ = packageUpdateForm.save_and_finish {
-                        let hasEmptyWords = packageUpdateForm.words.reduce(false) { $0 || $1.isEmpty }
-                        if !hasEmptyWords {
-                            package.readyForProcessing = true
-                        }
-                    }
-                    package.words = packageUpdateForm.words
                 }
-
-                return package.save(on: req).map { _ in
-                    return req.redirect(to: redirect)
+                
+                package.save(on: req)
+                
+                return packageUpdateForm.translations.keys.map { languageIdString in
+                    let languageId = Int(languageIdString)!
+                    return TranslationsList.query(on: req).filter(\.languageId == languageId).first().map { translationList in
+                        var translationListToSave: TranslationsList!
+                        let translations = packageUpdateForm.translations[languageIdString]
+                        if let translationList = translationList {
+                            translationList.translations = translations
+                            translationListToSave = translationList
+                        } else {
+                            let newTranslationList = TranslationsList(
+                                packageId: package.id!,
+                                languageId: languageId,
+                                translations: translations
+                            )
+                            translationListToSave = newTranslationList
+                        }
+                        
+                        translationListToSave.save(on: req)
+                    }
+                }.flatten(on: req).map { _ in
+                    req.redirect(to: redirect)
                 }
             }
         }

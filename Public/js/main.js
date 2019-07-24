@@ -20,17 +20,16 @@ function filterTranslationsLists()
 }
 
 $(document).ready(function() {
-  var lastTr = function() {
-    var trs = $('table tr');
-    return trs[trs.length - 2];
+  var lastTr = function(table) {
+    var trs = $(table).find('tr');
+    return trs[trs.length - 1];
   };
 
   var addRow = function() {
-    var newTrHTML = lastTr().outerHTML;
-    var tr = $('.add-row').parents('tr');
-    tr.before(newTrHTML);
-    $(lastTr).children('td').each(function (i, td) {
-      $(td).children('input').val('');
+    $('table table').each(function() {
+      var newTrHTML = lastTr(this).outerHTML;
+      $(this).append(newTrHTML);
+      $(lastTr(this)).find('input').val('');
     });
   };
 
@@ -43,10 +42,6 @@ $(document).ready(function() {
         alert('Please allow popups for this website');
     }
     e.preventDefault();
-  });
-
-  $('table').on('click', '.delete-row', function() {
-    $(this).parents("tr").remove();
   });
 
   var shiftPressed = false;
@@ -70,8 +65,8 @@ $(document).ready(function() {
       return;
     }
 
-    var trs = $('table tr');
-    var lastTr = trs[trs.length - 2];
+    var trs = $('table table').first().find('tr');
+    var lastTr = trs[trs.length - 1];
     var tr = $(this).parents('tr')[0];
 
     if (tr == lastTr) {
@@ -80,4 +75,16 @@ $(document).ready(function() {
   });
 
   $(".add-row").click(addRow);
+  $('table table').on('click', '.delete-row', function() {
+    var tr = $(this).parent().parent();
+    var trs = $('table table').last().find('tr');
+    if (trs.length <= 2) {
+      return;
+    }
+
+    var index = trs.index(tr);
+    $('table table').each(function() {
+      $(this).find('tr')[index].remove();
+    });
+  });
 });

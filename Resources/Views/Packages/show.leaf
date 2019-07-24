@@ -1,35 +1,64 @@
 #set("body") {
-  <h2>#(packageName)</h2>
-  <form method="POST" action="/packages/#(id)/update">
-    <table>
-      <tr>
-      #for(language in languages) {
-        <th>#(language.name)</th>
-      }
-      </tr>
-      #for(wordList in wordLists) {
+  <div id="form-body">
+    <h2>#(packageName)</h2>
+    <form method="POST" action="/packages/#(packageId)/update">
+      <table>
         <tr>
-          #for(word in wordList) {
-            <td>
-              <input type="text" value="#(word.value)" name="words[#(word.langaugeId)][]" class="form-control">
-            </td>
-          }
+        #for(languagesAndTranslation in languagesAndTranslations) {
           <td>
-            <button class="btn btn-red delete-row" type="button" tabindex="-1">Remove</button>
+            <table>
+              <tr>
+                <th>#(languagesAndTranslation.language.name)</th>
+              </tr>
+              #for(translation in languagesAndTranslation.translations) {
+                <tr>
+                  <td>
+                    <input type="text" value="#(translation)" name="translations[#(languagesAndTranslation.language.id)][]" class="form-control">
+                  </td>
+                </tr>
+              }
+            </table>
           </td>
+        }
+        #if(!readyForProcessing) {
+          <td>
+            <table>
+              <tr>
+                <th>Actions</th>
+              </tr>
+              #for(languagesAndTranslation in languagesAndTranslations) {
+                #if(isFirst) {
+                  #for(translation in languagesAndTranslation.translations) {
+                    <tr>
+                      <td>
+                        <button class="btn btn-red delete-row" type="button" tabindex="-1">Remove</button>
+                      </td>
+                    </tr>
+                  }
+                }
+              }
+            </table>
+          </td>
+        }
         </tr>
-      }
-      <tr>
-        <td>
-          <button class="btn btn-blue add-row" type="button">Add Word</button>
-        </td>
-      </tr>
-    </table>
-    <div id="toolbar">
+        #if(!readyForProcessing) {
+          <tr>
+            <td>
+              <button class="btn btn-blue add-row" type="button">Add Word</button>
+            </td>
+          </tr>
+        }
+      </table>
+    </form>
+  </div>
+  <div id="toolbar">
+    #if(!readyForProcessing) {
       <input class="btn btn-blue" type="submit" name="save" value="Save">
       <input class="btn btn-blue" type="submit" name="save_and_finish" value="Save & Finish">
-    </div>
-  </form>
+    } else {
+      <input class="btn btn-blue" type="submit" name="unlock" value="Unlock">
+    }
+  </div>
 }
 
 #embed("nav_layout")

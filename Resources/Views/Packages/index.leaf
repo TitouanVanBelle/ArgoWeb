@@ -13,9 +13,11 @@
   }
   </ul>
   #if(user.admin) {
-    <a href="packages/new">
-      <button class="btn btn-blue" type="button">New</button>
-    </a>
+    <div id="toolbar">
+      <a href="packages/new">
+        <button class="btn btn-blue" type="button">New</button>
+      </a>
+    </div>
   }
 }
 
