@@ -1,21 +1,25 @@
 #set("body") {
-  <ul>
-  #for(language in languages) {
-    <li>
-      <a href="/languages/#(language.id)">
-        <div class="card">
-          <div class="container">
-            <h4>#(language.name)</h4>
+  <div id="content-body">
+    <ul>
+    #for(language in languages) {
+      <li>
+        <a href="/languages/#(language.id)">
+          <div class="card">
+            <div class="container">
+              <h4>#(language.name)</h4>
+            </div>
           </div>
-        </div>
-      </a>
-    </li>
-  }
-  </ul>
+        </a>
+      </li>
+    }
+    </ul>
+  </div>
   #if(user.admin) {
-    <a href="languages/new">
-      <button class="btn btn-blue" type="button">New</button>
-    </a>
+    <div id="toolbar">
+      <a href="languages/new">
+        <button class="btn btn-blue" type="button">New</button>
+      </a>
+    </div>
   }
 }
 

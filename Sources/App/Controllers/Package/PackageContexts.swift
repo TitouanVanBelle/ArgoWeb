@@ -2,7 +2,7 @@ import Vapor
 
 struct PackageIndexContext: Encodable
 {
-    let packages: [PackageView]
+    let packages: [Future<PackageView>]
     let currentPath: String
     let user: User
 }

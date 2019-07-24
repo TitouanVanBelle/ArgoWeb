@@ -1,5 +1,5 @@
 #set("body") {
-  <div id="form-body">
+  <div id="content-body">
     <h2>#(packageName)</h2>
     <form method="POST" action="/packages/#(packageId)/update">
       <table>

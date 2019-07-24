@@ -1,8 +1,10 @@
 #set("body") {
-    <form method="POST" action="/packages">
-    <input type="text" placeholder="Name" name="name" class="form-control">
-    <input class="btn btn-blue" type="submit" value="Create">
-  </form>
+    <div id="content-body">
+      <form method="POST" action="/packages">
+        <input type="text" placeholder="Name" name="name" class="form-control">
+        <input class="btn btn-blue" type="submit" value="Create">
+      </form>
+    </div>
 }
 
 #embed("nav_layout")

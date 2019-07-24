@@ -1,17 +1,19 @@
 #set("body") {
-  <ul>
-  #for(package in packages) {
-    <li>
-      <a href="/packages/#(package.id)">
-        <div class="card">
-          <div class="container">
-            <h4>#(package.name) (#(package.numberOfCards))</h4>
+  <div id="content-body">
+    <ul>
+    #for(package in packages) {
+      <li>
+        <a href="/packages/#(package.id)">
+          <div class="card">
+            <div class="container">
+              <h4>#(package.name) (#(package.numberOfCards))</h4>
+            </div>
           </div>
-        </div>
-      </a>
-    </li>
-  }
-  </ul>
+        </a>
+      </li>
+    }
+    </ul>
+  </div>
   #if(user.admin) {
     <div id="toolbar">
       <a href="packages/new">

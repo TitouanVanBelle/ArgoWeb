@@ -5,18 +5,18 @@ final class PackageController
 {
     func index(_ req: Request) throws -> Future<View>
     {
-        let packages = Package.query(on: req).sort(\.name).all()
-        let user = try req.requireAuthenticated(User.self)
-
-        return packages.flatMap { packages in
-            let packagesList = packages.compactMap { package in
-                return PackageView(
-                    id: package.id!,
-                    name: package.name,
-                    numberOfCards: 0//package.numberOfCards
-                )
+        return Package.query(on: req).sort(\.name).all().flatMap { packages in
+            let packagesList = try packages.compactMap { package in
+                return try package.translationsLists.query(on: req).first().map { translationList in
+                    return PackageView(
+                        id: package.id!,
+                        name: package.name,
+                        numberOfCards: translationList?.translations?.count ?? 0
+                    )
+                }
             }
 
+            let user = try req.requireAuthenticated(User.self)
             let context = PackageIndexContext(
                 packages: packagesList,
                 currentPath: req.http.url.path,
