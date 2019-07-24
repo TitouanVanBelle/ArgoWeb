@@ -45,10 +45,10 @@ public func routes(_ router: Router) throws
 
     // MARK: API
 
-//    let translationsListAPIController = TranslationsListController.API()
-//    let api = router.grouped("api")
-//    api.get("translationsLists", use: translationsListAPIController.index)
-//    api.get("translationsLists", TranslationsList.parameter, "process", use: translationsListAPIController.process)
+    let packagesAPIController = PackageController.API()
+    let api = router.grouped("api")
+    api.get("packages", use: packagesAPIController.packagesReadyForProcessing)
+//    api.get("packages", TranslationsList.parameter, "process", use: translationsListAPIController.process)
 }
 
 struct Obj: Content {

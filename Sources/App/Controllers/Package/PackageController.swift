@@ -137,3 +137,32 @@ final class PackageController
         }
     }
 }
+
+extension PackageController
+{
+    struct API
+    {
+        struct APIPackage: Content
+        {
+            let id: Int
+            let name: String
+            let languageCode: String
+            let languageName: String
+            let translations: [String]
+        }
+        
+        func packagesReadyForProcessing(_ req: Request) throws -> Future<[APIPackage]>
+        {
+            return req.withPooledConnection(to: .psql) { conn in
+                return conn.raw("""
+                SELECT "Package".id, "Package".name, "TranslationsList".translations, "Language".code AS "languageCode", "Language".name AS "languageName"
+                FROM "Package"
+                INNER JOIN "TranslationsList" ON "Package".id="TranslationsList"."packageId"
+                INNER JOIN "Language" ON "TranslationsList"."languageId"="Language"."id"
+                WHERE "readyForProcessing" = 'false'
+                ORDER BY "packageId";
+                """).all(decoding: APIPackage.self)
+            }
+        }
+    }
+}
