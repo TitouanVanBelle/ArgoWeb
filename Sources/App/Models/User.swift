@@ -48,11 +48,11 @@ extension User: PasswordAuthenticatable
 
 extension User: SessionAuthenticatable {}
 
-/// Allows `Package` to be used as a dynamic migration.
+/// Allows `TranslationsList` to be used as a dynamic migration.
 extension User: Migration { }
 
-/// Allows `Package` to be encoded to and decoded from HTTP messages.
+/// Allows `TranslationsList` to be encoded to and decoded from HTTP messages.
 extension User: Content { }
 
-/// Allows `Package` to be used as a dynamic parameter in route definitions.
+/// Allows `TranslationsList` to be used as a dynamic parameter in route definitions.
 extension User: Parameter { }

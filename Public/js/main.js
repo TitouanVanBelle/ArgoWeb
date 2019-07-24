@@ -1,15 +1,15 @@
-function filterPackages()
+function filterTranslationsLists()
 {
   var languageSelect = document.getElementById("language_filter");
   var languageId = languageSelect.options[languageSelect.selectedIndex].value;
 
-  var themeSelect = document.getElementById("theme_filter");
-  var themeId = themeSelect.options[themeSelect.selectedIndex].value;
+  var packageSelect = document.getElementById("package_filter");
+  var packageId = packageSelect.options[packageSelect.selectedIndex].value;
 
   var params = [];
 
-  if (themeId != 0) {
-    params.push("theme=" + themeId);
+  if (packageId != 0) {
+    params.push("package=" + packageId);
   }
 
   if (languageId != 0) {
@@ -20,10 +20,18 @@ function filterPackages()
 }
 
 $(document).ready(function() {
-  var addWord = function() {
-    var row = '<tr><td><input type="text" name="words[]" class="form-control"><button class="btn btn-red delete-row" type="button" tabindex="-1">Remove</button></td></tr>';
-    var tr = $(".add-row").parents("tr");
-    tr.before(row);
+  var lastTr = function() {
+    var trs = $('table tr');
+    return trs[trs.length - 2];
+  };
+
+  var addRow = function() {
+    var newTrHTML = lastTr().outerHTML;
+    var tr = $('.add-row').parents('tr');
+    tr.before(newTrHTML);
+    $(lastTr).children('td').each(function (i, td) {
+      $(td).children('input').val('');
+    });
   };
 
   $('table').on('click', '.btn-wordreference', function(e) {
@@ -67,9 +75,9 @@ $(document).ready(function() {
     var tr = $(this).parents('tr')[0];
 
     if (tr == lastTr) {
-      addWord();
+      addRow();
     }
   });
 
-  $(".add-row").click(addWord);
+  $(".add-row").click(addRow);
 });

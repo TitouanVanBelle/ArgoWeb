@@ -64,13 +64,11 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
 
     var migrations = MigrationConfig()
     migrations.add(model: Language.self, database: .psql)
+    migrations.add(model: TranslationsList.self, database: .psql)
     migrations.add(model: Package.self, database: .psql)
-    migrations.add(model: Theme.self, database: .psql)
     migrations.add(model: User.self, database: .psql)
 
     migrations.add(migration: CreateLanguages.self, database: .psql)
-    migrations.add(migration: ThemeReadyForPackagingMigration.self, database: .psql)
-    migrations.add(migration: LanguageAddCodeMigration.self, database:.psql)
     services.register(migrations)
 }
 

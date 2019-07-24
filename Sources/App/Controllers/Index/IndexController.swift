@@ -7,19 +7,19 @@ final class IndexController
     {
         let user = try req.requireAuthenticated(User.self)
 
-        var query = Package.query(on: req)
+        var query = TranslationsList.query(on: req)
 
         if let isAdmin = user.admin, !isAdmin {
             query = query.filter(\.languageId == user.languageId)
         }
 
-        let packagesCount = query.count()
+        let translationsListsCount = query.count()
 
         let context = IndexContext(
             currentPath: req.http.url.path,
             languagesCount: Language.query(on: req).count(),
-            packagesCount: packagesCount,
-            themesCount: Theme.query(on: req).count(),
+            translationsListsCount: translationsListsCount,
+            packagesCount: Package.query(on: req).count(),
             user: user
         )
 

@@ -36,29 +36,19 @@ public func routes(_ router: Router) throws
     // MARK: Packages
 
     let packageController = PackageController()
-
     protectedRouter.get("packages", use: packageController.index)
-    protectedRouter.get("packages", Package.parameter, use: packageController.show)
+    protectedRouter.get("packages", "new", use: packageController.new)
+    protectedRouter.post("packages", use: packageController.create)
     protectedRouter.post("packages", Package.parameter, "update", use: packageController.update)
+    protectedRouter.get("packages", Package.parameter, use: packageController.show)
     protectedRouter.post("packages", Package.parameter, "delete", use: packageController.delete)
-    protectedRouter.post("packages", "create_missing_packages", use: packageController.createMissingPackages)
-
-    // MARK: Themes
-
-    let themeController = ThemeController()
-    protectedRouter.get("themes", use: themeController.index)
-    protectedRouter.get("themes", "new", use: themeController.new)
-    protectedRouter.post("themes", use: themeController.create)
-    protectedRouter.post("themes", Theme.parameter, "update", use: themeController.update)
-    protectedRouter.get("themes", Theme.parameter, use: themeController.show)
-    protectedRouter.post("themes", Theme.parameter, "delete", use: themeController.delete)
 
     // MARK: API
 
-    let packageAPIController = PackageController.API()
-    let api = router.grouped("api")
-    api.get("packages", use: packageAPIController.index)
-    api.get("packages", Package.parameter, "process", use: packageAPIController.process)
+//    let translationsListAPIController = TranslationsListController.API()
+//    let api = router.grouped("api")
+//    api.get("translationsLists", use: translationsListAPIController.index)
+//    api.get("translationsLists", TranslationsList.parameter, "process", use: translationsListAPIController.process)
 }
 
 struct Obj: Content {

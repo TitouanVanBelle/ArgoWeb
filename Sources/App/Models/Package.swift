@@ -1,55 +1,46 @@
 import FluentPostgreSQL
 import Vapor
 
+/// A single entry of a Package list.
 final class Package: PostgreSQLModel
 {
     var id: Int?
-    var themeId: Int
-    var languageId: Int
-    var translations: [String]?
-    var readyForProcessing: Bool
-    var processed: Bool
+    var name: String
+    var words: [String]?
+    var readyForProcessing: Bool?
 
-    init(id: Int? = nil, themeId: Int, languageId: Int, translations: [String]? = nil, readyForProcessing: Bool = false, processed: Bool = false)
-    {
-        self.id = id
-        self.themeId = themeId
-        self.languageId = languageId
-        self.translations = translations
-        self.processed = processed
-        self.readyForProcessing = readyForProcessing
+    var isValid: Bool {
+        guard let words = words else {
+            return false
+        }
+
+        for word in words {
+            if word.isEmpty {
+                return false
+            }
+        }
+
+        return true
     }
 
-    func willCreate(on conn: PostgreSQLConnection) throws -> Future<Package>
+    init(id: Int? = nil, name: String, words: [String]? = nil, readyForProcessing: Bool = false)
     {
-        readyForProcessing = false
-        processed = false
-        return Future.map(on: conn) { self }
+        self.id = id
+        self.name = name
+        self.words = words
+        self.readyForProcessing = readyForProcessing
     }
 }
 
 extension Package
 {
-    var theme: Parent<Package, Theme> {
-        return parent(\.themeId)
-    }
-
-    var language: Parent<Package, Language> {
-        return parent(\.languageId)
+    var translationsLists: Children<Package, TranslationsList> {
+        return children(\.packageId)
     }
 }
 
 /// Allows `Package` to be used as a dynamic migration.
-extension Package: Migration
-{
-    static func prepare(on conn: PostgreSQLConnection) -> Future<Void>
-    {
-        return Database.create(self, on: conn) { builder in
-            try addProperties(to: builder)
-            builder.unique(on: \.themeId, \.languageId)
-        }
-    }
-}
+extension Package: Migration { }
 
 /// Allows `Package` to be encoded to and decoded from HTTP messages.
 extension Package: Content { }

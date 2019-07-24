@@ -18,7 +18,7 @@ final class Language: PostgreSQLModel
 
 extension Language
 {
-    var packages: Children<Language, Package> {
+    var translationsLists: Children<Language, TranslationsList> {
         return children(\.languageId)
     }
 }
@@ -61,22 +61,5 @@ struct CreateLanguages: PostgreSQLMigration
         }
 
         return Future<Void>.andAll(futures, eventLoop: connection.eventLoop)
-    }
-}
-
-struct LanguageAddCodeMigration: PostgreSQLMigration
-{
-    static func prepare(on conn: PostgreSQLConnection) -> Future<Void>
-    {
-        return PostgreSQLDatabase.update(Language.self, on: conn) { builder in
-            builder.field(for: \.code, type: .text, .default(.literal("")))
-        }
-    }
-
-    static func revert(on conn: PostgreSQLConnection) -> Future<Void>
-    {
-        return PostgreSQLDatabase.update(Language.self, on: conn) { builder in
-            builder.deleteField(for: \.code)
-        }
     }
 }

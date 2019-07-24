@@ -117,6 +117,7 @@ nav ul li.selected a {
 
 #content #toolbar * {
   float: left;
+  margin-right: 10px;
 }
 
 .card {

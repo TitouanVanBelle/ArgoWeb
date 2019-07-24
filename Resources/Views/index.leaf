@@ -11,16 +11,6 @@
           </div>
         </a>
       </li>
-      <li>
-        <a href="/themes">
-          <div class="card">
-            <img src="images/theme.png" alt="Theme">
-            <div class="container">
-              <h4>Themes (#(themesCount))</h4>
-            </div>
-          </div>
-        </a>
-      </li>
     }
     <li>
       <a href="/packages">

@@ -2,53 +2,45 @@ import Vapor
 
 struct PackageIndexContext: Encodable
 {
-    let packages: [Future<PackageView>]
-    let languages: Future<[Language]>
-    let themes: Future<[Theme]>
-    let selectedLanguage: Int?
-    let selectedTheme: Int?
+    let packages: [PackageView]
     let currentPath: String
     let user: User
 }
 
 struct PackageNewContext: Encodable
 {
-    let languages: Future<[Language]>
-    let themes: Future<[Theme]>
     let currentPath: String
     let user: User
+}
+
+struct Word: Encodable
+{
+    let value: String
+    let languageId: Int
 }
 
 struct PackageShowContext: Encodable
 {
-    let id: Int
     let currentPath: String
-    let theme: String
-    let numberOfCards: Int
-    let translations: [Translation]
-    let readyForProcessing: Bool
     let user: User
+    let packageId: Int
+    let packageName: String
+    let readyForProcessing: Bool
+    let wordLists: [[Word]]
+    let languages: [Language]
 }
 
 struct PackageUpdateForm: Content
 {
-    let translations: [String]
+    let words: [String]
     let save_and_finish: String?
     let save: String?
+    let unlock: String?
 }
 
 struct PackageView: Encodable
 {
-    let id: Int?
-    let theme: String
-    let language: String
-    let processed: Bool
-    let readyForProcessing: Bool
-}
-
-struct Translation: Encodable
-{
-    let word: String
-    let translation: String
-    let link: String
+    let id: Int
+    let name: String
+    let numberOfCards: Int
 }
