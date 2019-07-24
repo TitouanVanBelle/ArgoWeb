@@ -55,16 +55,21 @@ final class PackageController
                 return try package.translationsLists.query(on: req).all().flatMap { translationsLists in
 
                     var languagesAndTranslations = [LanguageWithTranslations]()
-                    if translationsLists.isEmpty {
-                        languagesAndTranslations = languages.map { language in
-                            return LanguageWithTranslations(language: language, translations: [""])
-                        }
-                    } else {
-                        languagesAndTranslations = languages.map { language in
+                    var numberOfEmptyWords = 1
+                    
+                    if translationsLists.count > 0 {
+                        numberOfEmptyWords = translationsLists.first!.translations!.count
+                    }
+                    
+                    languagesAndTranslations = languages.map { language in
+                        if let languageTranslationList = translationsLists.filter({ $0.languageId == language.id }).first {
                             return LanguageWithTranslations(
                                 language: language,
-                                translations:  translationsLists.filter({ $0.languageId == language.id }).first!.translations!
+                                translations: languageTranslationList.translations!
                             )
+                        } else {
+                            let emptyTranslations = Array(repeating: "", count: numberOfEmptyWords)
+                            return LanguageWithTranslations(language: language, translations: emptyTranslations)
                         }
                     }
                     
