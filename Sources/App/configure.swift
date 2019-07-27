@@ -39,7 +39,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
             hostname: "localhost",
             port: 5432,
             username: "titouanvanbelle",
-            database: "argo",
+            database: "vokbox",
             password: nil,
             transport: .cleartext
         )
@@ -71,4 +71,3 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(migration: CreateLanguages.self, database: .psql)
     services.register(migrations)
 }
-

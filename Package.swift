@@ -2,9 +2,9 @@
 import PackageDescription
 
 let package = Package(
-    name: "ArgoWeb",
+    name: "VokboxWeb",
     products: [
-        .library(name: "ArgoWeb", targets: ["App"]),
+        .library(name: "VokboxWeb", targets: ["App"]),
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),

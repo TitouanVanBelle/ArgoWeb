@@ -1,6 +1,6 @@
 #set("body") {
   <header>
-    <a href="/" class="logo">Argo</a>
+    <a href="/" class="logo">Vokbox</a>
     <a href="/logout" class="logout">Logout</a>
   </header>
   <div id="body">
