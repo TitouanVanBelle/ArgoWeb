@@ -1,7 +1,7 @@
 #set("body") {
   <div id="content-body">
     <h2>#(packageName)</h2>
-    <form method="POST" action="/packages/#(packageId)/update">
+    <form id="package_form" method="POST" action="/packages/#(packageId)/update">
       <table>
         <tr>
         #for(languagesAndTranslation in languagesAndTranslations) {
@@ -13,7 +13,7 @@
               #for(translation in languagesAndTranslation.translations) {
                 <tr>
                   <td>
-                    <input type="text" value="#(translation)" name="translations[#(languagesAndTranslation.language.id)][]" class="form-control">
+                    <input type="text" value="#(translation)" name="translations[#(languagesAndTranslation.language.id)][]" class="form-control" #if(readyForProcessing) { disabled }>
                   </td>
                 </tr>
               }
@@ -53,10 +53,10 @@
   </div>
   <div id="toolbar">
     #if(!readyForProcessing) {
-      <input class="btn btn-blue" type="submit" name="save" value="Save">
-      <input class="btn btn-blue" type="submit" name="save_and_finish" value="Save & Finish">
+      <input form="package_form" class="btn btn-blue" type="submit" name="save" value="Save">
+      <input form="package_form" class="btn btn-blue" type="submit" name="save_and_finish" value="Save & Finish">
     } else {
-      <input class="btn btn-blue" type="submit" name="unlock" value="Unlock">
+      <input form="package_form" class="btn btn-blue" type="submit" name="unlock" value="Unlock">
     }
   </div>
 }

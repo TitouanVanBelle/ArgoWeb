@@ -159,7 +159,7 @@ extension PackageController
                 FROM "Package"
                 INNER JOIN "TranslationsList" ON "Package".id="TranslationsList"."packageId"
                 INNER JOIN "Language" ON "TranslationsList"."languageId"="Language"."id"
-                WHERE "readyForProcessing" = 'false'
+                WHERE "readyForProcessing" = 'true'
                 ORDER BY "packageId";
                 """).all(decoding: APIPackage.self)
             }
