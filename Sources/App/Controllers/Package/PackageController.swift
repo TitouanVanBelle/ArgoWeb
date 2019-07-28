@@ -104,7 +104,7 @@ final class PackageController
                 
                 return packageUpdateForm.translations.keys.map { languageIdString in
                     let languageId = Int(languageIdString)!
-                    return TranslationsList.query(on: req).filter(\.languageId == languageId).first().map { translationList in
+                    return TranslationsList.query(on: req).filter(\.languageId == languageId).filter(\.packageId == package.id!).first().map { translationList in
                         var translationListToSave: TranslationsList!
                         let translations = packageUpdateForm.translations[languageIdString]
                         if let translationList = translationList {
