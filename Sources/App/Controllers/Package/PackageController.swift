@@ -78,6 +78,7 @@ final class PackageController
                         user: user,
                         packageId: package.id!,
                         packageName: package.name,
+                        packageTag: package.tag,
                         readyForProcessing: package.readyForProcessing ?? false,
                         languagesAndTranslations: languagesAndTranslations
                     )
@@ -99,7 +100,10 @@ final class PackageController
                 } else if let _ = packageUpdateForm.unlock {
                     package.readyForProcessing = false
                 }
-                
+
+                package.name = packageUpdateForm.name
+                package.tag = packageUpdateForm.tag
+
                 package.save(on: req)
                 
                 return packageUpdateForm.translations.keys.map { languageIdString in
@@ -146,6 +150,7 @@ extension PackageController
         {
             let id: Int
             let name: String
+            let tag: String
             let languageCode: String
             let languageName: String
             let translations: [String]
@@ -155,7 +160,7 @@ extension PackageController
         {
             return req.withPooledConnection(to: .psql) { conn in
                 return conn.raw("""
-                SELECT "Package".id, "Package".name, "TranslationsList".translations, "Language".code AS "languageCode", "Language".name AS "languageName"
+                SELECT "Package".id, "Package".name, "Package".tag, "TranslationsList".translations, "Language".code AS "languageCode", "Language".name AS "languageName"
                 FROM "Package"
                 INNER JOIN "TranslationsList" ON "Package".id="TranslationsList"."packageId"
                 INNER JOIN "Language" ON "TranslationsList"."languageId"="Language"."id"

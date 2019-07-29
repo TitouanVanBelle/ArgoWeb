@@ -6,12 +6,14 @@ final class Package: PostgreSQLModel
 {
     var id: Int?
     var name: String
+    var tag: String
     var readyForProcessing: Bool?
 
-    init(id: Int? = nil, name: String, readyForProcessing: Bool = false)
+    init(id: Int? = nil, name: String, tag: String, readyForProcessing: Bool = false)
     {
         self.id = id
         self.name = name
+        self.tag = tag
         self.readyForProcessing = readyForProcessing
     }
 }
@@ -31,3 +33,23 @@ extension Package: Content { }
 
 /// Allows `Package` to be used as a dynamic parameter in route definitions.
 extension Package: Parameter { }
+
+extension Package
+{
+    struct AddTag: PostgreSQLMigration
+    {
+        static func prepare(on conn: PostgreSQLConnection) -> Future<Void> {
+            return PostgreSQLDatabase.update(Package.self, on: conn) { builder in
+                let defaultValueConstraint = PostgreSQLColumnConstraint.default(.literal(""))
+                builder.field(for: \.tag, type: .text, defaultValueConstraint)
+            }
+        }
+
+        static func revert(on conn: PostgreSQLConnection) -> Future<Void>
+        {
+            return PostgreSQLDatabase.update(Package.self, on: conn) { builder in
+                builder.deleteField(for: \.tag)
+            }
+        }
+    }
+}

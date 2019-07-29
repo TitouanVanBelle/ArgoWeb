@@ -25,12 +25,15 @@ struct PackageShowContext: Encodable
     let user: User
     let packageId: Int
     let packageName: String
+    let packageTag: String
     let readyForProcessing: Bool
     let languagesAndTranslations: [LanguageWithTranslations]
 }
 
 struct PackageUpdateForm: Content
 {
+    let name: String
+    let tag: String
     let translations: [String:[String]]
     let save_and_finish: String?
     let save: String?

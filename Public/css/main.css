@@ -50,6 +50,14 @@ header .logout:hover {
   text-decoration: underline;
 }
 
+table {
+  border-spacing: 0;
+}
+
+td {
+  text-align: left;
+}
+
 table tr {
   height: 44px;
 }
@@ -181,7 +189,6 @@ nav ul li.selected a {
 
 td button,
 td input[type=submit] {
-  float: right;
   margin-left: 10px;
 }
 
