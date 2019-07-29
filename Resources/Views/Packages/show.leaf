@@ -1,9 +1,9 @@
 #set("body") {
   <div id="content-body">
     <form id="package_form" method="POST" action="/packages/#(packageId)/update">
-      <input type="text" placeholder="Name" name="name" value="#(packageName)" class="form-control">
+      <input type="text" placeholder="Name" name="name" value="#(packageName)" class="form-control" maxlength="30">
       <input type="text" placeholder="Tag" name="tag" value="#(packageTag)" class="form-control">
-      <input type="text" placeholder="Description" name="description" value="#(packageDescription)" class="form-control">
+      <input type="text" placeholder="Description" name="description" value="#(packageDescription)" class="form-control" maxlength="45">
       <table>
         <tr>
         #for(languagesAndTranslation in languagesAndTranslations) {
