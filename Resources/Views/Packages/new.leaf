@@ -3,6 +3,7 @@
       <form method="POST" action="/packages">
         <input type="text" placeholder="Name" name="name" class="form-control">
         <input type="text" placeholder="Tag" name="tag" class="form-control">
+        <input type="text" placeholder="Description" name="description" class="form-control">
         <input class="btn btn-blue" type="submit" value="Create">
       </form>
     </div>

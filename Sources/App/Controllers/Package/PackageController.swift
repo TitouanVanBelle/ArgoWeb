@@ -79,6 +79,7 @@ final class PackageController
                         packageId: package.id!,
                         packageName: package.name,
                         packageTag: package.tag,
+                        packageDescription: package.description,
                         readyForProcessing: package.readyForProcessing ?? false,
                         languagesAndTranslations: languagesAndTranslations
                     )
@@ -103,6 +104,7 @@ final class PackageController
 
                 package.name = packageUpdateForm.name
                 package.tag = packageUpdateForm.tag
+                package.description = packageUpdateForm.description
 
                 package.save(on: req)
                 
@@ -151,6 +153,7 @@ extension PackageController
             let id: Int
             let name: String
             let tag: String
+            let description: String
             let languageCode: String
             let languageName: String
             let translations: [String]
@@ -160,7 +163,7 @@ extension PackageController
         {
             return req.withPooledConnection(to: .psql) { conn in
                 return conn.raw("""
-                SELECT "Package".id, "Package".name, "Package".tag, "TranslationsList".translations, "Language".code AS "languageCode", "Language".name AS "languageName"
+                SELECT "Package".id, "Package".name, "Package".tag, "Package".description, "TranslationsList".translations, "Language".code AS "languageCode", "Language".name AS "languageName"
                 FROM "Package"
                 INNER JOIN "TranslationsList" ON "Package".id="TranslationsList"."packageId"
                 INNER JOIN "Language" ON "TranslationsList"."languageId"="Language"."id"

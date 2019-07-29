@@ -7,13 +7,15 @@ final class Package: PostgreSQLModel
     var id: Int?
     var name: String
     var tag: String
+    var description: String
     var readyForProcessing: Bool?
 
-    init(id: Int? = nil, name: String, tag: String, readyForProcessing: Bool = false)
+    init(id: Int? = nil, name: String, tag: String, description: String, readyForProcessing: Bool = false)
     {
         self.id = id
         self.name = name
         self.tag = tag
+        self.description = description
         self.readyForProcessing = readyForProcessing
     }
 }
@@ -38,7 +40,8 @@ extension Package
 {
     struct AddTag: PostgreSQLMigration
     {
-        static func prepare(on conn: PostgreSQLConnection) -> Future<Void> {
+        static func prepare(on conn: PostgreSQLConnection) -> Future<Void>
+        {
             return PostgreSQLDatabase.update(Package.self, on: conn) { builder in
                 let defaultValueConstraint = PostgreSQLColumnConstraint.default(.literal(""))
                 builder.field(for: \.tag, type: .text, defaultValueConstraint)
@@ -49,6 +52,24 @@ extension Package
         {
             return PostgreSQLDatabase.update(Package.self, on: conn) { builder in
                 builder.deleteField(for: \.tag)
+            }
+        }
+    }
+
+    struct AddDescription: PostgreSQLMigration
+    {
+        static func prepare(on conn: PostgreSQLConnection) -> Future<Void>
+        {
+            return PostgreSQLDatabase.update(Package.self, on: conn) { builder in
+                let defaultValueConstraint = PostgreSQLColumnConstraint.default(.literal(""))
+                builder.field(for: \.description, type: .text, defaultValueConstraint)
+            }
+        }
+
+        static func revert(on conn: PostgreSQLConnection) -> Future<Void>
+        {
+            return PostgreSQLDatabase.update(Package.self, on: conn) { builder in
+                builder.deleteField(for: \.description)
             }
         }
     }
