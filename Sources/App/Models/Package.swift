@@ -20,6 +20,19 @@ final class Package: PostgreSQLModel
     }
 }
 
+extension Package: Validatable
+{
+    static func validations() throws -> Validations<Package>
+    {
+        var validations = Validations(Package.self)
+        try validations.add(\.name, .count(1...))
+        try validations.add(\.description, .count(10...))
+        try validations.add(\.tag, .count(1...))
+        
+        return validations
+    }
+}
+
 extension Package
 {
     var translationsLists: Children<Package, TranslationsList> {

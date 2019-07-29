@@ -41,6 +41,7 @@ final class PackageController
     func create(_ req: Request) throws -> Future<Response>
     {
         return try req.content.decode(Package.self).flatMap { package in
+            try package.validate()
             return package.save(on: req).map { _ in
                 return req.redirect(to: "/packages/\(package.id!)")
             }
@@ -95,16 +96,17 @@ final class PackageController
         return try req.parameters.next(Package.self).flatMap { package in
             return try req.content.decode(PackageUpdateForm.self).flatMap { packageUpdateForm in
                 let redirect = "/packages/\(package.id!)"
-                
-                if let _ = packageUpdateForm.save_and_finish {
-                    package.readyForProcessing = true
-                } else if let _ = packageUpdateForm.unlock {
-                    package.readyForProcessing = false
-                }
 
                 package.name = packageUpdateForm.name
                 package.tag = packageUpdateForm.tag
                 package.description = packageUpdateForm.description
+
+                if let _ = packageUpdateForm.save_and_finish {
+                    try package.validate()
+                    package.readyForProcessing = true
+                } else if let _ = packageUpdateForm.unlock {
+                    package.readyForProcessing = false
+                }
 
                 package.save(on: req)
                 
