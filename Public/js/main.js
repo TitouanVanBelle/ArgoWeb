@@ -101,10 +101,14 @@ $(document).ready(function() {
       var key = $('#yandex-api-key').data('api-key');
       var lang = $(table).data('lang');
       $(table).find("input").each(function(indexB, input) {
+        if (input.value != "") {
+          return;
+        }
+
         var text = words[indexB];
         $.post( "https://translate.yandex.net/api/v1.5/tr.json/translate", { key: key, text: text, lang: lang })
         .done(function(data) {
-            input.value = data.text[0];
+          input.value = data.text[0];
         });
       });
     });
