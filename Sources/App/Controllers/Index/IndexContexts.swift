@@ -7,4 +7,6 @@ struct IndexContext: Encodable
     let translationsListsCount: Future<Int>
     let packagesCount: Future<Int>
     let user: User
+    let apiKeyA: String
+    let apiKeyB: String
 }

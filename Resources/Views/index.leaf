@@ -1,4 +1,6 @@
 #set("body") {
+  #(apiKeyA)
+  #(apiKeyB)
   <div id="content-body">
     <ul>
       #if(user.admin) {
