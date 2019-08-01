@@ -73,6 +73,8 @@ final class PackageController
                             return LanguageWithTranslations(language: language, translations: emptyTranslations)
                         }
                     }
+
+                    print(Environment.get("yandexApiKey") ?? "")
                     
                     let context = PackageShowContext(
                         currentPath: req.http.url.path,
@@ -82,7 +84,8 @@ final class PackageController
                         packageTag: package.tag,
                         packageDescription: package.description,
                         readyForProcessing: package.readyForProcessing ?? false,
-                        languagesAndTranslations: languagesAndTranslations
+                        languagesAndTranslations: languagesAndTranslations,
+                        yandexApiKey: Environment.get("yandexApiKey") ?? ""
                     )
                     
                     return try req.view().render("Packages/show", context)

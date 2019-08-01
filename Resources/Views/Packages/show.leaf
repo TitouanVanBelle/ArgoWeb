@@ -1,5 +1,6 @@
 #set("body") {
   <div id="content-body">
+    <div id="yandex-api-key" data-api-key="#(yandexApiKey)"></div>
     <form id="package_form" method="POST" action="/packages/#(packageId)/update">
       <input type="text" placeholder="Name" name="name" value="#(packageName)" class="form-control" maxlength="30">
       <input type="text" placeholder="Tag" name="tag" value="#(packageTag)" class="form-control">
@@ -55,12 +56,34 @@
   </div>
   <div id="toolbar">
     #if(!readyForProcessing) {
+      <button class="btn btn-blue" type="button" onclick="translate()">Translate</button>
       <input form="package_form" class="btn btn-blue" type="submit" name="save" value="Save">
       <input form="package_form" class="btn btn-blue" type="submit" name="save_and_finish" value="Save & Finish">
     } else {
       <input form="package_form" class="btn btn-blue" type="submit" name="unlock" value="Unlock">
     }
   </div>
+  <script>
+  var translate = function() {
+    var words = $("table table").first().find('input').map(function(index, input) {
+      return input.value
+    });
+
+    $("table table").each(function(index, table) {
+      if index == 0 {
+        return;
+      }
+
+      $(table).find("input").each(function(index, input) {
+        $.post( "https://translate.yandex.net/api/v1.5/tr.json/translate", { key: , text: text, lang: lang })
+        .done(function(data) {
+            input.val(data.text[0])
+        });
+      });
+    });
+  };
+
+  </script>
 }
 
 #embed("nav_layout")

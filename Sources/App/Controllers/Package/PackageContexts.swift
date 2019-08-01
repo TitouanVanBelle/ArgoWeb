@@ -29,6 +29,7 @@ struct PackageShowContext: Encodable
     let packageDescription: String
     let readyForProcessing: Bool
     let languagesAndTranslations: [LanguageWithTranslations]
+    let yandexApiKey: String
 }
 
 struct PackageUpdateForm: Content

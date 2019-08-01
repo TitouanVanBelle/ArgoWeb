@@ -21,7 +21,7 @@ final class IndexController
             translationsListsCount: translationsListsCount,
             packagesCount: Package.query(on: req).count(),
             user: user,
-            apiKeyA: Environment.get("YANDEX_API_KEY") ?? "NULL",
+            apiKeyA: Environment.get("yandexApiKey") ?? "NULL",
             apiKeyB: Environment.get("yandexapikey") ?? "NULL"
         )
 
