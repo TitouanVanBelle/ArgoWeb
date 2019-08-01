@@ -74,8 +74,6 @@ final class PackageController
                         }
                     }
 
-                    print(Environment.get("yandexApiKey") ?? "")
-                    
                     let context = PackageShowContext(
                         currentPath: req.http.url.path,
                         user: user,
@@ -85,7 +83,7 @@ final class PackageController
                         packageDescription: package.description,
                         readyForProcessing: package.readyForProcessing ?? false,
                         languagesAndTranslations: languagesAndTranslations,
-                        yandexApiKey: Environment.get("yandexApiKey") ?? ""
+                        yandexApiKey: Environment.get("YANDEX_API_KEY") ?? ""
                     )
                     
                     return try req.view().render("Packages/show", context)

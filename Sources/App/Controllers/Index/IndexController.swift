@@ -20,9 +20,7 @@ final class IndexController
             languagesCount: Language.query(on: req).count(),
             translationsListsCount: translationsListsCount,
             packagesCount: Package.query(on: req).count(),
-            user: user,
-            apiKeyA: Environment.get("yandexApiKey") ?? "NULL",
-            apiKeyB: Environment.get("yandexapikey") ?? "NULL"
+            user: user
         )
 
         return try req.view().render("index", context)

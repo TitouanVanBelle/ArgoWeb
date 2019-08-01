@@ -87,4 +87,28 @@ $(document).ready(function() {
       $(this).find('tr')[index].remove();
     });
   });
+
+  var translate = function() {
+    var words = $("table table").first().find('input').map(function(index, input) {
+      return input.value
+    });
+
+    $("table table").each(function(indexA, table) {
+      if (indexA == 0) {
+        return;
+      }
+
+      var key = $('#yandex-api-key').data('api-key');
+      var lang = $(table).data('lang');
+      $(table).find("input").each(function(indexB, input) {
+        var text = words[indexB];
+        $.post( "https://translate.yandex.net/api/v1.5/tr.json/translate", { key: key, text: text, lang: lang })
+        .done(function(data) {
+            input.value = data.text[0];
+        });
+      });
+    });
+  };
+
+  $("#translate").click(translate);
 });
